@@ -1,0 +1,159 @@
+package com.chunchun.chunpicturebackend.service;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.chunchun.chunpicturebackend.api.aliyunai.model.CreateOutPaintingTaskResponse;
+import com.chunchun.chunpicturebackend.model.dto.picture.*;
+import com.chunchun.chunpicturebackend.model.entity.Picture;
+import com.chunchun.chunpicturebackend.model.entity.User;
+import com.chunchun.chunpicturebackend.model.vo.PictureTagCategory;
+import com.chunchun.chunpicturebackend.model.vo.PictureVO;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+
+/**
+ * @author 24557
+ * @description 针对表【picture(图片)】的数据库操作Service
+ * @createDate 2025-06-23 23:19:45
+ */
+public interface PictureService extends IService<Picture> {
+    /**
+     * 上传图片
+     *
+     * @param inputSource          输入源 URL or FILE
+     * @param pictureUploadRequest
+     * @param loginUser
+     * @return
+     */
+    PictureVO uploadPicture(Object inputSource,
+                            PictureUploadRequest pictureUploadRequest,
+                            User loginUser);
+
+    /**
+     * 把查询对象 转成 mybatis querywrapper
+     *
+     * @param pictureQueryRequest
+     * @return
+     */
+    QueryWrapper<Picture> getQueryWrapper(PictureQueryRequest pictureQueryRequest);
+
+    /**
+     * 单个图片封装
+     *
+     * @param picture
+     * @param request
+     * @return
+     */
+    PictureVO getPictureVO(Picture picture, HttpServletRequest request);
+
+    /**
+     * 分页获取图片封装
+     *
+     * @param picturePage
+     * @param request
+     * @return
+     */
+    Page<PictureVO> getPictureVOPage(Page<Picture> picturePage,
+                                     HttpServletRequest request);
+
+    void validPicture(Picture picture);
+
+    /**
+     * 图片审核
+     *
+     * @param pictureReviewRequest
+     * @param loginUser
+     */
+    void doPictureReview(PictureReviewRequest pictureReviewRequest,
+                         User loginUser);
+
+    /**
+     * 填充审核参数
+     *
+     * @param picture
+     * @param loginUser
+     */
+    void fillReviewParams(Picture picture, User loginUser);
+
+    /**
+     * 批量抓取和创建图片
+     *
+     * @param pictureUploadByBatchRequest
+     * @param loginUser
+     * @return 成功创建的图片数
+     */
+    Integer uploadPictureByBatch(
+            PictureUploadByBatchRequest pictureUploadByBatchRequest,
+            User loginUser
+    );
+
+    /**
+     * 清理图片文件
+     *
+     * @param oldPicture
+     */
+    void clearPictureFile(Picture oldPicture);
+
+    /**
+     * 检查图片权限
+     *
+     * @param loginUser
+     * @param picture
+     */
+    void checkPictureAuth(User loginUser, Picture picture);
+
+    /**
+     * 删除图片
+     *
+     * @param pictureId 图片id
+     * @param loginUser 登录用户
+     */
+    void deletePicture(long pictureId, User loginUser);
+
+    /**
+     * 编辑图片
+     *
+     * @param pictureEditRequest 编辑请求体
+     * @param loginUser          登录用户
+     */
+    void editPicture(PictureEditRequest pictureEditRequest, User loginUser);
+
+    /**
+     * 颜色搜图
+     *
+     * @param spaceId   空间id
+     * @param picColor  图片颜色
+     * @param loginUser 登录用户
+     * @return List<PictureVO>
+     */
+    List<PictureVO> searchPictureByColor(Long spaceId, String picColor
+            , User loginUser);
+
+    /**
+     * 批量编辑
+     *
+     * @param pictureEditByBatchRequest 请求类
+     * @param loginUser                 登录用户
+     */
+    public void editPictureByBatch(PictureEditByBatchRequest pictureEditByBatchRequest, User loginUser);
+
+    /**
+     * 获取所有标签和分类（从数据库中动态查询）
+     *
+     * @return PictureTagCategory
+     */
+    PictureTagCategory getPictureTagCategory();
+
+    /**
+     * 扩图服务
+     *
+     * @param createPictureOutPaintingTaskRequest 请求类
+     * @param loginUser                           登录用户
+     * @return createPictureOutPaintingTask
+     */
+    CreateOutPaintingTaskResponse createPictureOutPaintingTask(CreatePictureOutPaintingTaskRequest createPictureOutPaintingTaskRequest, User loginUser);
+
+}
