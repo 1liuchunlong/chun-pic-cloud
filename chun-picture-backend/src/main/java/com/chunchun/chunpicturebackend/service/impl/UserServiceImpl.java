@@ -130,6 +130,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 保存用户的登录态 存入 session 的attribute
         //  记录用户登录态到sa-token  尽量保证两个信息过期时间一致
         request.getSession().setAttribute(USER_LOGIN_STATE, user);
+
         StpKit.SPACE.login(user.getId());
         StpKit.SPACE.getSession().set(UserConstant.USER_LOGIN_STATE, user);
 

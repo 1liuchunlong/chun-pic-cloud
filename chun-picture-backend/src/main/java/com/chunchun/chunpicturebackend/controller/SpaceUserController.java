@@ -8,6 +8,8 @@ import com.chunchun.chunpicturebackend.common.DeleteRequest;
 import com.chunchun.chunpicturebackend.common.ResultUtils;
 import com.chunchun.chunpicturebackend.exception.ErrorCode;
 import com.chunchun.chunpicturebackend.exception.ThrowUtils;
+import com.chunchun.chunpicturebackend.manager.auth.annotation.SaSpaceCheckPermission;
+import com.chunchun.chunpicturebackend.manager.auth.model.SpaceUserPermissionConstant;
 import com.chunchun.chunpicturebackend.model.dto.spaceuser.SpaceUserAddRequest;
 import com.chunchun.chunpicturebackend.model.dto.spaceuser.SpaceUserEditRequest;
 import com.chunchun.chunpicturebackend.model.dto.spaceuser.SpaceUserQueryRequest;
@@ -47,6 +49,7 @@ public class SpaceUserController {
      * @return id
      */
     @PostMapping("/add")
+    @SaSpaceCheckPermission(value = SpaceUserPermissionConstant.SPACE_USER_MANAGE)
     public BaseResponse<Long> addSpaceUser(@RequestBody SpaceUserAddRequest spaceUserAddRequest,
                                            HttpServletRequest request) {
         ThrowUtils.throwIf(spaceUserAddRequest == null,
@@ -63,6 +66,7 @@ public class SpaceUserController {
      * @return boolean
      */
     @PostMapping("/delete")
+    @SaSpaceCheckPermission(value = SpaceUserPermissionConstant.SPACE_USER_MANAGE)
     public BaseResponse<Boolean> deleteSpaceUser(@RequestBody DeleteRequest deleteRequest,
                                                  HttpServletRequest request) {
         // 参数校验
@@ -86,6 +90,7 @@ public class SpaceUserController {
      * @return 空间成员类
      */
     @PostMapping("/get")
+    @SaSpaceCheckPermission(value = SpaceUserPermissionConstant.SPACE_USER_MANAGE)
     public BaseResponse<SpaceUser> getSpaceUser(@RequestBody SpaceUserQueryRequest spaceUserQueryRequest) {
             // 参数校验
             ThrowUtils.throwIf(spaceUserQueryRequest == null,
@@ -108,6 +113,7 @@ public class SpaceUserController {
      */
 
     @PostMapping("/list")
+    @SaSpaceCheckPermission(value = SpaceUserPermissionConstant.SPACE_USER_MANAGE)
     public BaseResponse<List<SpaceUserVO>> listSpaceUser(@RequestBody SpaceUserQueryRequest spaceUserQueryRequest,
                     HttpServletRequest request) {
             ThrowUtils.throwIf(spaceUserQueryRequest == null, ErrorCode.PARAMS_ERROR);
@@ -123,6 +129,7 @@ public class SpaceUserController {
      * @return boolean
      */
     @PostMapping("/edit")
+    @SaSpaceCheckPermission(value = SpaceUserPermissionConstant.SPACE_USER_MANAGE)
     public BaseResponse<Boolean> editSpaceUser(@RequestBody SpaceUserEditRequest spaceUserEditRequest,
                     HttpServletRequest request) {
 

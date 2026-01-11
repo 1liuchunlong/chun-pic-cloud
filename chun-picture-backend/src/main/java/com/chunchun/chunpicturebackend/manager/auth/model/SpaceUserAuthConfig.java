@@ -15,4 +15,5 @@ public class SpaceUserAuthConfig {
      * 角色列表
      */
     private List<SpaceUserRole> roles;
+
 }
